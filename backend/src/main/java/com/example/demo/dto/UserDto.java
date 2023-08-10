@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+
 import lombok.*;
 
 @Getter
@@ -11,5 +12,4 @@ public class UserDto {
     private String username;
     private String email;
     private String password;
-    private String role;
 }

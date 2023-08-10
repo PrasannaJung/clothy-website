@@ -13,7 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 public class User {
     @Id
     @SequenceGenerator(allocationSize = 1,
@@ -25,6 +24,7 @@ public class User {
     private String email;
     private String password;
     private String role;
+    private String address;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore

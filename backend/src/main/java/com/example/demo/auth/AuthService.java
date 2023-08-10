@@ -39,7 +39,7 @@ public class AuthService {
         CustomUserDetails userDetails = new CustomUserDetails(user);
         HashMap<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("role", user.getRole());
-        var jwtToken = jwtService.generateToken(userDetails);
+        var jwtToken = jwtService.generateToken(extraClaims, userDetails);
 
         return AuthResponse.builder()
                 .role(user.getRole())
@@ -48,8 +48,10 @@ public class AuthService {
     }
 
     public User register(UserDto userDto) {
+
         String userRole = userDto.getEmail().equals("prasannajung08@gmail.com")
                 ? "ROLE_ADMIN" : "ROLE_USER";
+
         var user = User.builder()
                 .email(userDto.getEmail())
                 .password(PasswordEncoderUtil.bCryptPasswordEncoder()
@@ -58,10 +60,5 @@ public class AuthService {
                 .role(userRole)
                 .build();
         return userRepo.save(user);
-//        CustomUserDetails userDetails = new CustomUserDetails(user);
-//        var jwtToken = jwtService.generateToken(userDetails);
-//        return AuthResponse.builder()
-//                .token(jwtToken)
-//                .build();
     }
 }

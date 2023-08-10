@@ -6,8 +6,10 @@ import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.AuthResponse;
 import com.example.demo.dto.CustomUserDetails;
 import com.example.demo.dto.UserDto;
+import com.example.demo.entities.Cart;
 import com.example.demo.entities.User;
 import com.example.demo.repos.UserRepo;
+import com.example.demo.services.CartService;
 import com.example.demo.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,7 @@ public class AuthenticationController {
 
     private final AuthService authService;
     private final UserService userService;
+    private final CartService cartService;
 
 
     @PostMapping("/register")
@@ -36,12 +39,14 @@ public class AuthenticationController {
             return ResponseEntity.status(400).body("Email already exists");
         }
 
-        return ResponseEntity.ok(authService.register(userDto));
+        User user = authService.register(userDto);
+        Cart cart = cartService.createCart(user);
+        user.setCart(cart);
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthRequest authRequest) {
-
         return ResponseEntity.ok(authService.authenticate(authRequest));
     }
 

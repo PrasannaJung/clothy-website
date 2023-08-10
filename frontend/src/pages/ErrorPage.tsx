@@ -1,7 +1,11 @@
 import React from "react";
 
-function ErrorPage() {
-  return <h1 className='text-center'>Page Not Found</h1>;
+type Props = {
+  message: string;
+};
+
+function ErrorPage(props: Props) {
+  return <h1 className='text-center'>{props.message}</h1>;
 }
 
 export default ErrorPage;

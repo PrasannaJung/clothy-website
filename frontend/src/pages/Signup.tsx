@@ -4,7 +4,6 @@ import lock from "../assets/lock.svg";
 import mail from "../assets/email.svg";
 import { Link } from "react-router-dom";
 import useSignup from "../hooks/useSignup";
-import { MdLocalFireDepartment } from "react-icons/md";
 
 function Signup() {
   const [email, setEmail] = useState("");

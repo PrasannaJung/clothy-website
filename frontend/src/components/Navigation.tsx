@@ -1,9 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { AiOutlineMenu, AiOutlineClose, AiOutlineHeart } from "react-icons/ai";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import {
+  AiOutlineMenu,
+  AiOutlineClose,
+  AiOutlineHeart,
+  AiOutlineShoppingCart,
+  AiOutlineUser,
+} from "react-icons/ai";
+import { UserContext } from "../context/UserContextProvider";
 
 function Navigation() {
+  const navigate = useNavigate();
   const [navOpen, setNavOpen] = useState(false);
+  const userContext = useContext(UserContext);
 
   function navToggle() {
     setNavOpen(prev => !prev);
@@ -49,10 +58,46 @@ function Navigation() {
 
       <div className='flex items-center gap-2'>
         <div className='mr-4'>
-          <button className='bg-black text-white px-2 py-1 rounded-lg'>
-            <Link to='/login'>LOGIN</Link>
-          </button>
+          {userContext?.isAuth ? (
+            userContext.role === "ROLE_ADMIN" ? (
+              <div
+                className='bg-black text-white rounded-md px-4 py-2 flex items-center gap-2 cursor-pointer'
+                onClick={() => {
+                  navigate("/admin");
+                }}
+              >
+                <AiOutlineUser size={24} />
+                <p className='bg-white text-black px-1 rounded-full'>Admin</p>
+              </div>
+            ) : (
+              <div
+                className='bg-black text-white rounded-md px-4 py-2 flex items-center gap-2 cursor-pointer'
+                onClick={() => {
+                  navigate("/user/cart");
+                }}
+              >
+                <AiOutlineShoppingCart size={24} />
+                <p>Cart</p>
+              </div>
+            )
+          ) : (
+            <button className='bg-black text-white px-2 py-1 rounded-lg'>
+              <Link to='/login'>LOGIN</Link>
+            </button>
+          )}
         </div>
+        {userContext?.isAuth ? (
+          <div>
+            <button
+              className='bg-red-900 text-white px-3 py-2 rounded-md font-bold'
+              onClick={userContext.logoutUser}
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
         <div className='md:hidden'>
           <button className='md:hidden' onClick={navToggle}>
             {navOpen ? (

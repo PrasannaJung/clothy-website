@@ -3,7 +3,7 @@ import user from "../assets/user.svg";
 import lock from "../assets/lock.svg";
 import mail from "../assets/email.svg";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../api/api";
 import useAuthentication from "../hooks/useAuthentication";
 
@@ -11,6 +11,8 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { loginUrl } = useAuthentication();
+
+  const navigate = useNavigate();
 
   function emailChangeHandler(e: ChangeEvent<HTMLInputElement>) {
     setEmail(e.target.value);
@@ -24,8 +26,8 @@ function Login() {
     e.preventDefault();
 
     const userInfo = { email: email, password: password };
-    console.log("form submitted");
-    console.log(JSON.stringify(userInfo));
+    // console.log("form submitted");
+    // console.log(JSON.stringify(userInfo));
     loginUrl(userInfo);
   }
 

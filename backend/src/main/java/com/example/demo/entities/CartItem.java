@@ -31,6 +31,12 @@ public class CartItem {
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
+    @Override
+    public String toString() {
+        // Incorrect implementation causing recursion
+        return "Cart";
+    }
+
     private int quantity;
 }
 

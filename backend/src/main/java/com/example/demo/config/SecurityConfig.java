@@ -7,6 +7,7 @@ import com.example.demo.utils.PasswordEncoderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -52,14 +53,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
-        // SECURITY CONFIG FOR JWT
         httpSecurity.
                 cors(Customizer.withDefaults())
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/user/**", "/register", "/login", "/test")
+                .requestMatchers("/user/**", "/uploads/**", "/register", "/login", "/test", "/api/**")
                 .permitAll()
-                .requestMatchers("/data")
+                .requestMatchers("/admin/**", "data/**")
                 .hasAuthority("ROLE_ADMIN")
                 .anyRequest()
                 .authenticated()
@@ -71,7 +71,6 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
         ;
-
         return httpSecurity.build();
     }
 
